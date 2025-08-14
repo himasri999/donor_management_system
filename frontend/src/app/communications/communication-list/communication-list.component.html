@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Communications</h2>
+  <button class="btn btn-primary" (click)="showForm = true">Add Communication</button>
+</div>
+
+<app-communication-form *ngIf="showForm" [communication]="editingCommunication" [donors]="donors" (close)="onFormClose()"></app-communication-form>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Donor</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let communication of communications">
+        <td>{{ communication.donor_name }}</td>
+        <td>{{ communication.message | slice:0:50 }}{{ communication.message.length > 50 ? '...' : '' }}</td>
+        <td>{{ communication.communication_date | date }}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="editCommunication(communication)">Edit</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteCommunication(communication.id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

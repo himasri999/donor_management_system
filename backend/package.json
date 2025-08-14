@@ -1,0 +1,48 @@
+{
+  "name": "donor-management-system-backend",
+  "version": "1.0.0",
+  "description": "Backend for the Donor Management System using Node.js, Express, and PostgreSQL.",
+  "main": "src/app.ts",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "node src/app.js",
+    "dev-ts": "ts-node src/app.ts",
+    "build": "tsc",
+    "test": "jest",
+    "setup-db": "node scripts/setup-db.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.8.0",
+    "winston": "^3.8.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^29.0.0",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/node": "^18.0.0",
+    "@types/pg": "^8.15.5",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.8.0"
+  },
+  "keywords": [
+    "donor",
+    "management",
+    "system",
+    "backend",
+    "nodejs",
+    "express",
+    "postgresql"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

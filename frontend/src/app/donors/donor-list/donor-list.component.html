@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Donors</h2>
+  <button class="btn btn-primary" (click)="showForm = true">Add Donor</button>
+</div>
+
+<div class="mb-3">
+  <input type="text" class="form-control" placeholder="Search donors..." 
+         [(ngModel)]="searchTerm" (input)="filterDonors()">
+</div>
+
+<app-donor-form *ngIf="showForm" [donor]="editingDonor" (close)="onFormClose()"></app-donor-form>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let donor of filteredDonors">
+        <td>{{ donor.name }}</td>
+        <td>{{ donor.email }}</td>
+        <td>{{ donor.phone || 'N/A' }}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="editDonor(donor)">Edit</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteDonor(donor.id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
