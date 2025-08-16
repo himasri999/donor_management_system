@@ -1,0 +1,82 @@
+name: Security Analysis
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday at 2 AM
+
+jobs:
+  security-scan:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    # Install dependencies for both frontend and backend
+    - name: Install Backend Dependencies
+      run: |
+        cd backend
+        npm ci
+    
+    - name: Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm ci --legacy-peer-deps
+    
+    # Snyk Security Scan
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+      continue-on-error: true
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --all-projects --severity-threshold=medium
+    
+    - name: Upload Snyk results to GitHub Code Scanning
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: snyk.sarif
+    
+    # SonarCloud Security Analysis
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    
+    # CodeQL Analysis for additional security scanning
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: javascript
+    
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+    
+    # Generate Security Report
+    - name: Generate Security Summary
+      run: |
+        echo "# Security Analysis Summary" >> $GITHUB_STEP_SUMMARY
+        echo "## Scans Completed:" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Snyk Vulnerability Scan" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ SonarCloud Security Analysis" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ GitHub CodeQL Analysis" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## View Results:" >> $GITHUB_STEP_SUMMARY
+        echo "- **Snyk**: Check Security tab in repository" >> $GITHUB_STEP_SUMMARY
+        echo "- **SonarCloud**: https://sonarcloud.io/project/overview?id=himasri999_donor-management-system-1" >> $GITHUB_STEP_SUMMARY
+        echo "- **CodeQL**: Check Security tab → Code scanning alerts" >> $GITHUB_STEP_SUMMARY

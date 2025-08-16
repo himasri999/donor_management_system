@@ -1,0 +1,18 @@
+# Snyk configuration file
+version: v1.0.0
+
+# Language settings
+language-settings:
+  javascript:
+    packageManager: npm
+
+# Ignore specific vulnerabilities (if needed)
+ignore:
+  # Example: ignore a specific vulnerability
+  # SNYK-JS-LODASH-567746:
+  #   - '*':
+  #       reason: False positive
+  #       expires: '2024-12-31T23:59:59.999Z'
+
+# Patches (if any)
+patches: {}
