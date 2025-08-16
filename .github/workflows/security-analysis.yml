@@ -78,5 +78,5 @@ jobs:
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "## View Results:" >> $GITHUB_STEP_SUMMARY
         echo "- **Snyk**: Check Security tab in repository" >> $GITHUB_STEP_SUMMARY
-        echo "- **SonarCloud**: https://sonarcloud.io/project/overview?id=himasri999_donor-management-system-1" >> $GITHUB_STEP_SUMMARY
+        echo "- **SonarCloud**: https://sonarcloud.io/project/overview?id=hima-organiz_donar" >> $GITHUB_STEP_SUMMARY
         echo "- **CodeQL**: Check Security tab → Code scanning alerts" >> $GITHUB_STEP_SUMMARY
